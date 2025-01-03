@@ -1,12 +1,14 @@
 <?php
 session_start();
 
+// Check if the user is logged in as admin, if not, redirect to login page
 if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'admin') {
     header("Location: Login.php");
     exit();
 }
 
-include('db_connect.php'); 
+// Include database connection
+include('db_connect.php'); // Include the connection file
 
 // Handle book deletion
 if (isset($_GET['id'])) {
@@ -17,7 +19,7 @@ if (isset($_GET['id'])) {
     $stmt->bind_param("i", $book_id);
 
     if ($stmt->execute()) {
-        header("Location: Admin.php"); 
+        header("Location: Admin.php"); // Redirect to Admin page after deletion
         exit();
     } else {
         echo "Error deleting book: " . $stmt->error;
@@ -25,7 +27,7 @@ if (isset($_GET['id'])) {
 
     $stmt->close();
 } else {
-    header("Location: Admin.php"); 
+    header("Location: Admin.php"); // Redirect if no ID is set
     exit();
 }
 
