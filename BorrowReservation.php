@@ -7,6 +7,7 @@ if (!isset($_SESSION['username'])) {
     exit();
 }
 
+// Fetch available books
 $sql = "SELECT * FROM books WHERE quantity > 0";
 $result = $conn->query($sql);
 
@@ -15,6 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'];
     $username = $_SESSION['username'];
 
+    // Fetch user ID based on username
     $user_sql = "SELECT user_id FROM users WHERE username = ?";
     $stmt = $conn->prepare($user_sql);
     $stmt->bind_param("s", $username);
@@ -25,22 +27,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->close();
 
     if ($action === 'borrow') {
+        // Insert borrowing record and update book quantity
         $borrow_sql = "INSERT INTO book_borrowings (user_id, book_id, status) VALUES (?, ?, 'borrowed')";
         $update_sql = "UPDATE books SET quantity = quantity - 1 WHERE book_id = ?";
+
+        // Prepare and execute the borrow query
+        $stmt = $conn->prepare($borrow_sql);
+        $stmt->bind_param("ii", $user_id, $book_id);
+        $borrow_success = $stmt->execute();
+        $stmt->close();
+
+        // Prepare and execute the update query only if borrow was successful
+        if ($borrow_success) {
+            $stmt = $conn->prepare($update_sql);
+            $stmt->bind_param("i", $book_id);
+            $update_success = $stmt->execute();
+            $stmt->close();
+
+            if ($update_success) {
+                $message = "Borrow successful!";
+            } else {
+                $message = "Error updating book quantity: " . $conn->error;
+            }
+        } else {
+            $message = "Error borrowing book: " . $conn->error;
+        }
     } elseif ($action === 'reserve') {
-        $borrow_sql = "INSERT INTO book_borrowings (user_id, book_id, status) VALUES (?, ?, 'reserved')";
+        // Insert reservation record
+        $reserve_sql = "INSERT INTO book_borrowings (user_id, book_id, status) VALUES (?, ?, 'reserved')";
+        $stmt = $conn->prepare($reserve_sql);
+        $stmt->bind_param("ii", $user_id, $book_id);
+
+        if ($stmt->execute()) {
+            $message = "Reservation successful!";
+        } else {
+            $message = "Error reserving book: " . $conn->error;
+        }
+        $stmt->close();
     }
-
-    $stmt = $conn->prepare($borrow_sql);
-    $stmt->bind_param("ii", $user_id, $book_id);
-
-    if ($stmt->execute() && ($action === 'borrow' ? $conn->query($update_sql) : true)) {
-        $message = ucfirst($action) . " successful!";
-    } else {
-        $message = "Error: " . $conn->error;
-    }
-
-    $stmt->close();
 }
 ?>
 
