@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 02, 2025 at 11:08 PM
+-- Generation Time: Jan 03, 2025 at 01:48 PM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -32,8 +32,19 @@ CREATE TABLE `books` (
   `title` varchar(255) NOT NULL,
   `author` varchar(255) DEFAULT NULL,
   `isbn` varchar(50) DEFAULT NULL,
-  `quantity` int(11) DEFAULT 1
+  `quantity` int(11) DEFAULT 1,
+  `book_cover` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `books`
+--
+
+INSERT INTO `books` (`book_id`, `title`, `author`, `isbn`, `quantity`, `book_cover`) VALUES
+(1, 'The 48 Laws of Power', 'Robert Greene', '1234456788', 4, 'uploads/images.png'),
+(2, 'The High 5 Habits', 'Mel Robbins', '1234456787', 8, 'uploads/images (1).png'),
+(3, 'No Longer Human', 'Osamu Dazai', '1234456730', 6, 'uploads/9780811204811.jpg'),
+(6, 'The Setting Sun', 'Osamu Dazai', '1234456783', 2, 'uploads/book_covers/book_6777d6eac8d546.87187164.jpg');
 
 -- --------------------------------------------------------
 
@@ -69,7 +80,8 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`username`, `password`, `role`, `user_id`) VALUES
 ('Eshra', '$2y$10$OCQMLUDXl5GysWfQaN2e/.1AcvqEsqWzpQHK1v7iFbKwjU8OPDKDq', 'user', 1),
-('John', '$2y$10$oX32tOc49ad.D/dpUpWU8OT/9cgeVXnlaX7G7i3yOE1h6M09BihPi', 'user', 2);
+('John', '$2y$10$oX32tOc49ad.D/dpUpWU8OT/9cgeVXnlaX7G7i3yOE1h6M09BihPi', 'user', 2),
+('amy', '$2y$10$IE/A4b.cEs1daJNae5Nx.umZNn3Zwq5pR14LCQnL61PzHDusqmfhm', 'user', 3);
 
 --
 -- Indexes for dumped tables
@@ -104,7 +116,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `books`
 --
 ALTER TABLE `books`
-  MODIFY `book_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `book_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `book_borrowings`
@@ -116,7 +128,7 @@ ALTER TABLE `book_borrowings`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
