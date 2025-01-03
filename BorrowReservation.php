@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-// Redirect to login page if user is not logged in
 if (!isset($_SESSION['username'])) {
     header("Location: Login.php");
     exit();
@@ -13,58 +12,70 @@ if (!isset($_SESSION['username'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Library Management System - Dashboard</title>
+    <title>Library Management System - Student Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+        }
+
         body {
-            background: url('https://images.unsplash.com/photo-1519681393784-d120267933ba') no-repeat center center fixed;
+            background: url('images/Homepage.jpeg') no-repeat center center fixed;
             background-size: cover;
             color: white;
-            min-height: 100vh;
             display: flex;
             flex-direction: column;
+            min-height: 100vh;
         }
 
         .navbar {
-            background-color: rgba(44, 62, 80, 0.8);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .navbar-brand {
             font-size: 1.5rem;
             font-weight: bold;
-            color: white;
+            color: white !important;
         }
 
-        .navbar-nav .nav-link {
-            color: rgba(255, 255, 255, 0.8);
+        .nav-link {
+            color: rgba(255, 255, 255, 0.9) !important;
             transition: color 0.3s ease;
         }
 
-        .navbar-nav .nav-link:hover {
-            color: white;
+        .nav-link:hover {
+            color: white !important;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
         }
 
         .jumbotron {
-            background: rgba(44, 62, 80, 0.85);
-            padding: 3rem;
-            border-radius: 8px;
-            margin-top: 100px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 10px;
+            margin-top: 3rem;
+            color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         footer {
-            background-color: rgba(44, 62, 80, 0.8);
+            background: var(--primary-color);
             color: white;
             text-align: center;
-            padding: 1rem;
-            position: absolute;
+            position: fixed;
             bottom: 0;
             width: 100%;
+            padding: 0.5rem 0;
+            font-size: 0.9rem;
         }
     </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container">
+        <div class="container-fluid">
             <a class="navbar-brand" href="Homepage.php">Library Management System</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
