@@ -37,9 +37,10 @@ $result = $conn->query($sql);
             flex-direction: column;
         }
 
-        .navbar {
-            background: var(--primary-color) !important;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                /* Navbar with Gradient */
+                .navbar {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .navbar-brand {
@@ -49,21 +50,14 @@ $result = $conn->query($sql);
         }
 
         .nav-link {
-            color: rgba(255,255,255,0.9) !important;
+            color: rgba(255, 255, 255, 0.9) !important;
             transition: color 0.3s ease;
-            padding: 0.5rem 1rem;
-            margin: 0 0.2rem;
-            border-radius: 4px;
         }
 
         .nav-link:hover {
             color: white !important;
-            background: rgba(255,255,255,0.1);
-        }
-
-        .nav-link.active {
-            background: var(--secondary-color);
-            color: white !important;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
         }
 
         .page-header {
@@ -141,40 +135,29 @@ $result = $conn->query($sql);
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg">
-        <div class="container">
-            <a class="navbar-brand" href="Homepage.php">
-                <i class="fas fa-book-reader me-2"></i>Library 
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="Homepage.php">Library Management System</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" href="Catalog.php">
-                            <i class="fas fa-books me-1"></i>Catalog
-                        </a>
+                        <a class="nav-link" href="Catalog.php">Catalog</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="UserAccount.php">
-                            <i class="fas fa-user me-1"></i>Account
-                        </a>
+                        <a class="nav-link" href="UserAccount.php">User Account</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="BookDetails.php">
-                            <i class="fas fa-info-circle me-1"></i>Details
-                        </a>
+                        <a class="nav-link" href="BookDetails.php">Book Details</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="BorrowReservation.php">
-                            <i class="fas fa-bookmark me-1"></i>Borrow
-                        </a>
+                        <a class="nav-link" href="BorrowReservation.php">Borrow/Reserve</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="Logout.php">
-                            <i class="fas fa-sign-out-alt me-1"></i>Logout
-                        </a>
+                        <a class="nav-link" href="Logout.php">Logout</a>
                     </li>
                 </ul>
             </div>
