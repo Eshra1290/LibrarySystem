@@ -1,9 +1,46 @@
 <?php
 session_start();
+include 'db_connect.php';
 
 if (!isset($_SESSION['username'])) {
     header("Location: Login.php");
     exit();
+}
+
+$sql = "SELECT * FROM books WHERE quantity > 0";
+$result = $conn->query($sql);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $book_id = $_POST['book_id'];
+    $action = $_POST['action'];
+    $username = $_SESSION['username'];
+
+    $user_sql = "SELECT user_id FROM users WHERE username = ?";
+    $stmt = $conn->prepare($user_sql);
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $user_result = $stmt->get_result();
+    $user = $user_result->fetch_assoc();
+    $user_id = $user['user_id'];
+    $stmt->close();
+
+    if ($action === 'borrow') {
+        $borrow_sql = "INSERT INTO book_borrowings (user_id, book_id, status) VALUES (?, ?, 'borrowed')";
+        $update_sql = "UPDATE books SET quantity = quantity - 1 WHERE book_id = ?";
+    } elseif ($action === 'reserve') {
+        $borrow_sql = "INSERT INTO book_borrowings (user_id, book_id, status) VALUES (?, ?, 'reserved')";
+    }
+
+    $stmt = $conn->prepare($borrow_sql);
+    $stmt->bind_param("ii", $user_id, $book_id);
+
+    if ($stmt->execute() && ($action === 'borrow' ? $conn->query($update_sql) : true)) {
+        $message = ucfirst($action) . " successful!";
+    } else {
+        $message = "Error: " . $conn->error;
+    }
+
+    $stmt->close();
 }
 ?>
 
@@ -12,7 +49,7 @@ if (!isset($_SESSION['username'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Library Management System - Student Dashboard</title>
+    <title>Borrow or Reserve Books</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         :root {
@@ -52,13 +89,31 @@ if (!isset($_SESSION['username'])) {
             border-radius: 4px;
         }
 
-        .jumbotron {
-            background: rgba(0, 0, 0, 0.7);
-            padding: 30px;
-            border-radius: 10px;
+        .container {
             margin-top: 3rem;
-            color: #fff;
+        }
+
+        .card {
+            background: rgba(0, 0, 0, 0.7);
+            border: none;
+            border-radius: 10px;
+            color: white;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            background: var(--secondary-color);
+            border: none;
+        }
+
+        .btn-secondary {
+            background: var(--primary-color);
+            border: none;
         }
 
         footer {
@@ -102,8 +157,8 @@ if (!isset($_SESSION['username'])) {
         </div>
     </nav>
 
-    <div class="container d-flex justify-content-center align-items-center">
-        <div class="jumbotron text-center">
+    <div class="container">
+        <?php if (!empty($message)): ?>
             <h1 class="display-4">Welcome to Your Dashboard</h1>
             <p class="lead">Explore the Library Management System! From browsing the catalog to managing your account and reserving books, everything is at your fingertips.</p>
             <hr class="my-4">
