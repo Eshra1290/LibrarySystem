@@ -60,30 +60,35 @@ if ($result->num_rows > 0) {
                         </div>
                         <div class="card-body">
                             <p><strong>Author:</strong> <?php echo htmlspecialchars($book['author']); ?></p>
-                            <p><strong>Genre:</strong> <?php echo htmlspecialchars($book['genre'] ?? 'Unknown'); ?></p>
                             <p><strong>ISBN:</strong> <?php echo htmlspecialchars($book['isbn']); ?></p>
                             <p><strong>Availability:</strong> 
                                 <?php echo $book['quantity'] > 0 ? 'Available' : 'Out of Stock'; ?>
                             </p>
+                            <p><strong>Quantity:</strong> <?php echo htmlspecialchars($book['quantity']); ?></p>
                             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bookModal<?php echo $book['book_id']; ?>">
-                                View Synopsis
+                                View Details
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Modal for Synopsis -->
+                <!-- Modal for Book Details -->
                 <div class="modal fade" id="bookModal<?php echo $book['book_id']; ?>" tabindex="-1" aria-labelledby="modalLabel<?php echo $book['book_id']; ?>" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="modalLabel<?php echo $book['book_id']; ?>">
-                                    <?php echo htmlspecialchars($book['title']); ?> - Synopsis
+                                    <?php echo htmlspecialchars($book['title']); ?> - Details
                                 </h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <?php echo nl2br(htmlspecialchars($book['synopsis'] ?? 'No synopsis available.')); ?>
+                                <p><strong>Author:</strong> <?php echo htmlspecialchars($book['author']); ?></p>
+                                <p><strong>ISBN:</strong> <?php echo htmlspecialchars($book['isbn']); ?></p>
+                                <p><strong>Quantity:</strong> <?php echo htmlspecialchars($book['quantity']); ?></p>
+                                <p><strong>Availability:</strong> 
+                                    <?php echo $book['quantity'] > 0 ? 'Available' : 'Out of Stock'; ?>
+                                </p>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -106,4 +111,3 @@ if ($result->num_rows > 0) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
