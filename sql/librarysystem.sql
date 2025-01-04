@@ -41,7 +41,7 @@ CREATE TABLE `books` (
 --
 
 INSERT INTO `books` (`book_id`, `title`, `author`, `isbn`, `quantity`, `book_cover`) VALUES
-(1, 'The 48 Laws of Power', 'Robert Greene', '1234456788', 1, 'uploads/images.png'),
+(1, 'The 48 Laws of Power', 'Robert Greene', '1234456788', 10, 'uploads/images.png'),
 (2, 'The High 5 Habits', 'Mel Robbins', '1234456787', 6, 'uploads/images (1).png'),
 (3, 'No Longer Human', 'Osamu Dazai', '1234456730', 4, 'uploads/9780811204811.jpg'),
 (6, 'The Setting Sun', 'Osamu Dazai', '1234456783', 2, 'uploads/images (1).jpg'),
