@@ -9,16 +9,11 @@ if (!isset($_SESSION['username'])) {
 // Include database connection
 include 'db_connect.php'; 
 
-// Check for search input
-if (isset($_GET['search'])) {
-    $search = $conn->real_escape_string($_GET['search']);
-    $sql = "SELECT * FROM books WHERE title LIKE '%$search%' OR author LIKE '%$search%' OR isbn LIKE '%$search%'";
-} else {
-    $sql = "SELECT * FROM books";
-}
+// Check if there's a search query
+$searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
 
-
-$sql = "SELECT * FROM books";
+// Modify the SQL query to filter books based on the search input
+$sql = "SELECT * FROM books WHERE title LIKE '%$searchQuery%' OR author LIKE '%$searchQuery%' OR isbn LIKE '%$searchQuery%'";
 $result = $conn->query($sql);
 ?>
 
@@ -44,8 +39,8 @@ $result = $conn->query($sql);
             flex-direction: column;
         }
 
-                /* Navbar with Gradient */
-                .navbar {
+        /* Navbar with Gradient */
+        .navbar {
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
@@ -188,25 +183,25 @@ $result = $conn->query($sql);
                 </div>
             </div>
             <div class="col-md-4">
-    <div class="stats-card">
-        <i class="fas fa-users"></i>
-        <h3>Active Users</h3>
-        <p class="h4">
-            <?php
-            // Query to count active users (if you have a specific condition for active users, adjust the WHERE clause)
-            $userSql = "SELECT COUNT(*) AS active_users FROM users WHERE role = 'user'";
-            $userResult = $conn->query($userSql);
+                <div class="stats-card">
+                    <i class="fas fa-users"></i>
+                    <h3>Active Users</h3>
+                    <p class="h4">
+                        <?php
+                        // Query to count active users (if you have a specific condition for active users, adjust the WHERE clause)
+                        $userSql = "SELECT COUNT(*) AS active_users FROM users WHERE role = 'user'";
+                        $userResult = $conn->query($userSql);
 
-            if ($userResult && $userResult->num_rows > 0) {
-                $userRow = $userResult->fetch_assoc();
-                echo "+" . $userRow['active_users'];
-            } else {
-                echo "0"; // Default if no users are found
-            }
-            ?>
-        </p>
-    </div>
-</div>
+                        if ($userResult && $userResult->num_rows > 0) {
+                            $userRow = $userResult->fetch_assoc();
+                            echo "+" . $userRow['active_users'];
+                        } else {
+                            echo "0"; // Default if no users are found
+                        }
+                        ?>
+                    </p>
+                </div>
+            </div>
             <div class="col-md-4">
                 <div class="stats-card">
                     <i class="fas fa-clock"></i>
@@ -216,19 +211,23 @@ $result = $conn->query($sql);
             </div>
         </div>
 
+        <!-- Search Bar -->
         <div class="search-bar">
-    <form method="GET" class="row">
-        <div class="col-md-8">
-            <input type="text" class="form-control" name="search" placeholder="Search for books by title, author, or ISBN..." value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
+            <div class="row">
+                <div class="col-md-8">
+                    <form action="Catalog.php" method="GET">
+                        <input type="text" class="form-control" name="search" placeholder="Search for books by title, author, or ISBN..." value="<?php echo isset($_GET['search']) ? $_GET['search'] : ''; ?>">
+                </div>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="fas fa-search me-2"></i>Search
+                    </button>
+                </div>
+            </div>
+        </form>
         </div>
-        <div class="col-md-4">
-            <button class="btn btn-primary w-100">
-                <i class="fas fa-search me-2"></i>Search
-            </button>
-        </div>
-    </form>
-</div>
 
+        <!-- Book Table -->
         <div class="table-responsive">
             <table class="table">
                 <thead>
