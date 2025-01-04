@@ -127,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     <!-- Login form -->
     <div class="login-container">
-        <img src="/LibrarySystem/images/logo.png" alt="Library Logo"> 
+        <img src="images/logo.png" alt="Library Logo"> 
         <h2>Library Management System - Login</h2>
         <form method="POST" action="Login.php">
             <div class="mb-3">
