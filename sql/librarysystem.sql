@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 03, 2025 at 01:48 PM
+-- Generation Time: Jan 03, 2025 at 04:30 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -41,10 +41,11 @@ CREATE TABLE `books` (
 --
 
 INSERT INTO `books` (`book_id`, `title`, `author`, `isbn`, `quantity`, `book_cover`) VALUES
-(1, 'The 48 Laws of Power', 'Robert Greene', '1234456788', 4, 'uploads/images.png'),
-(2, 'The High 5 Habits', 'Mel Robbins', '1234456787', 8, 'uploads/images (1).png'),
-(3, 'No Longer Human', 'Osamu Dazai', '1234456730', 6, 'uploads/9780811204811.jpg'),
-(6, 'The Setting Sun', 'Osamu Dazai', '1234456783', 2, 'uploads/book_covers/book_6777d6eac8d546.87187164.jpg');
+(1, 'The 48 Laws of Power', 'Robert Greene', '1234456788', 1, 'uploads/images.png'),
+(2, 'The High 5 Habits', 'Mel Robbins', '1234456787', 6, 'uploads/images (1).png'),
+(3, 'No Longer Human', 'Osamu Dazai', '1234456730', 4, 'uploads/9780811204811.jpg'),
+(6, 'The Setting Sun', 'Osamu Dazai', '1234456783', 2, 'uploads/images (1).jpg'),
+(8, 'Atomic Habits', 'James Clear', '1234456756', 6, 'uploads/book_covers/book_6777efce97f012.46064796.jpg');
 
 -- --------------------------------------------------------
 
@@ -61,6 +62,30 @@ CREATE TABLE `book_borrowings` (
   `status` varchar(50) DEFAULT 'borrowed'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `book_borrowings`
+--
+
+INSERT INTO `book_borrowings` (`borrowing_id`, `user_id`, `book_id`, `borrow_date`, `return_date`, `status`) VALUES
+(1, 3, 1, '2025-01-03', NULL, 'borrowed'),
+(2, 3, 2, '2025-01-03', NULL, 'borrowed'),
+(3, 3, 3, '2025-01-03', NULL, 'borrowed'),
+(4, 3, 3, '2025-01-03', NULL, 'borrowed'),
+(5, 3, 2, '2025-01-03', NULL, 'borrowed'),
+(6, 3, 2, '2025-01-03', NULL, 'borrowed'),
+(7, 3, 8, '2025-01-03', NULL, 'borrowed'),
+(8, 3, 8, '2025-01-03', NULL, 'borrowed'),
+(9, 3, 1, '2025-01-03', NULL, 'borrowed'),
+(10, 3, 1, '2025-01-03', NULL, 'borrowed'),
+(11, 3, 1, '2025-01-03', NULL, 'borrowed'),
+(12, 3, 3, '2025-01-03', NULL, 'reserved'),
+(13, 3, 3, '2025-01-03', NULL, 'reserved'),
+(14, 3, 3, '2025-01-03', NULL, 'reserved'),
+(15, 3, 3, '2025-01-03', NULL, 'reserved'),
+(16, 3, 3, '2025-01-03', NULL, 'reserved'),
+(17, 3, 3, '2025-01-03', NULL, 'reserved'),
+(18, 3, 3, '2025-01-03', NULL, 'reserved');
+
 -- --------------------------------------------------------
 
 --
@@ -71,17 +96,18 @@ CREATE TABLE `users` (
   `username` varchar(50) NOT NULL,
   `password` varchar(255) NOT NULL,
   `role` enum('admin','user') DEFAULT 'user',
-  `user_id` int(11) NOT NULL
+  `user_id` int(11) NOT NULL,
+  `profile_picture` varchar(255) DEFAULT 'uploads/profile_pictures/default.jpg'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`username`, `password`, `role`, `user_id`) VALUES
-('Eshra', '$2y$10$OCQMLUDXl5GysWfQaN2e/.1AcvqEsqWzpQHK1v7iFbKwjU8OPDKDq', 'user', 1),
-('John', '$2y$10$oX32tOc49ad.D/dpUpWU8OT/9cgeVXnlaX7G7i3yOE1h6M09BihPi', 'user', 2),
-('amy', '$2y$10$IE/A4b.cEs1daJNae5Nx.umZNn3Zwq5pR14LCQnL61PzHDusqmfhm', 'user', 3);
+INSERT INTO `users` (`username`, `password`, `role`, `user_id`, `profile_picture`) VALUES
+('Eshra', '$2y$10$OCQMLUDXl5GysWfQaN2e/.1AcvqEsqWzpQHK1v7iFbKwjU8OPDKDq', 'user', 1, 'uploads/profile_pictures/default.jpg'),
+('John', '$2y$10$oX32tOc49ad.D/dpUpWU8OT/9cgeVXnlaX7G7i3yOE1h6M09BihPi', 'user', 2, 'uploads/profile_pictures/default.jpg'),
+('amy', '$2y$10$IE/A4b.cEs1daJNae5Nx.umZNn3Zwq5pR14LCQnL61PzHDusqmfhm', 'user', 3, 'uploads/profile_pictures/default.jpg');
 
 --
 -- Indexes for dumped tables
@@ -116,13 +142,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `books`
 --
 ALTER TABLE `books`
-  MODIFY `book_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `book_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `book_borrowings`
 --
 ALTER TABLE `book_borrowings`
-  MODIFY `borrowing_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `borrowing_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `users`
