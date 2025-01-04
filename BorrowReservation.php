@@ -65,6 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         $stmt->close();
     }
+    
 }
 ?>
 
@@ -93,6 +94,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             background: rgba(255, 255, 255, 0.1);
             border-radius: 4px;
         }
+
+        /* Footer */
+        footer {
+            background: var(--primary-color);
+            color: white;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            padding: 0.5rem 0; /* Reduced padding for lower height */
+            font-size: 0.9rem; /* Adjusted font size for compact appearance */
+        }
+
+        footer .p-3 {
+            margin: 0;
+        }
+
     </style>
 </head>
 <body>
@@ -154,6 +172,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php endif; ?>
         </div>
     </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="text-center p-3">
+            &copy; <?php echo date('Y'); ?> Library Management System. All rights reserved.
+        </div>
+    </footer>
+        
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
