@@ -9,6 +9,13 @@ if (!isset($_SESSION['username'])) {
 // Include database connection
 include 'db_connect.php'; 
 
+// Check for search input
+if (isset($_GET['search'])) {
+    $search = $conn->real_escape_string($_GET['search']);
+    $sql = "SELECT * FROM books WHERE title LIKE '%$search%' OR author LIKE '%$search%' OR isbn LIKE '%$search%'";
+} else {
+    $sql = "SELECT * FROM books";
+}
 
 
 $sql = "SELECT * FROM books";
@@ -210,17 +217,17 @@ $result = $conn->query($sql);
         </div>
 
         <div class="search-bar">
-            <div class="row">
-                <div class="col-md-8">
-                    <input type="text" class="form-control" placeholder="Search for books by title, author, or ISBN...">
-                </div>
-                <div class="col-md-4">
-                    <button class="btn btn-primary w-100">
-                        <i class="fas fa-search me-2"></i>Search
-                    </button>
-                </div>
-            </div>
+    <form method="GET" class="row">
+        <div class="col-md-8">
+            <input type="text" class="form-control" name="search" placeholder="Search for books by title, author, or ISBN..." value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
         </div>
+        <div class="col-md-4">
+            <button class="btn btn-primary w-100">
+                <i class="fas fa-search me-2"></i>Search
+            </button>
+        </div>
+    </form>
+</div>
 
         <div class="table-responsive">
             <table class="table">
