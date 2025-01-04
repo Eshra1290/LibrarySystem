@@ -42,6 +42,7 @@ if ($result->num_rows > 0) {
             background: rgba(255, 255, 255, 0.1);
             border-radius: 4px;
         }
+  
     </style>
 </head>
 <body>
